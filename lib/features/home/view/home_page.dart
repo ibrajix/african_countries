@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../utils/general_utility.dart';
@@ -17,10 +18,22 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final TextEditingController _searchController = TextEditingController();
+  List<CountryModel> _filteredCountries = [];
+
   @override
   void initState() {
     super.initState();
     context.read<HomeViewModel>().add(const HomeEvent.getCountries());
+  }
+
+  void _filterCountries(String query, List<CountryModel> countries) {
+    setState(() {
+      _filteredCountries = countries
+          .where((country) =>
+              country.name.common.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+    });
   }
 
   @override
@@ -59,27 +72,59 @@ class _HomePageState extends State<HomePage> {
               );
             case ResponseState.success:
               final countries = state.apiResponse?.countries ?? [];
-              return countries.isEmpty
-                  ? const Center(child: Text('No countries found'))
-                  : GridView.builder(
-                      padding: const EdgeInsets.all(16),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 0.8,
-                        crossAxisSpacing: 16,
-                        mainAxisSpacing: 16,
+              if (_filteredCountries.isEmpty &&
+                  _searchController.text.isEmpty) {
+                _filteredCountries = countries;
+              }
+
+              return Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: TextField(
+                      controller: _searchController,
+                      decoration: InputDecoration(
+                        hintText: 'Search countries...',
+                        prefixIcon: const Icon(Icons.search),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
-                      itemCount: countries.length,
-                      itemBuilder: (context, index) {
-                        final country = countries[index];
-                        return GestureDetector(
-                          onTap: () => _showCountryDetails(context, country),
-                          child: CountryCard(country: country),
-                        );
-                        ;
+                      onChanged: (query) {
+                        _filterCountries(query, countries);
                       },
-                    );
+                    ),
+                  ),
+                  Expanded(
+                    child: _filteredCountries.isEmpty
+                        ? const Center(child: Text('No countries found'))
+                        : GridView.builder(
+                            padding: const EdgeInsets.all(16),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: 0.8,
+                              crossAxisSpacing: 16,
+                              mainAxisSpacing: 16,
+                            ),
+                            itemCount: _filteredCountries.length,
+                            itemBuilder: (context, index) {
+                              final country = _filteredCountries[index];
+                              return GestureDetector(
+                                onTap: () =>
+                                    _showCountryDetails(context, country),
+                                child: CountryCard(country: country)
+                                    .animate()
+                                    .fadeIn(duration: 300.ms)
+                                    .slideX(
+                                        begin: index % 2 == 0 ? -0.5 : 0.5,
+                                        duration: 300.ms),
+                              );
+                            },
+                          ),
+                  ),
+                ],
+              );
           }
         },
       ),
