@@ -40,6 +40,12 @@ dependencies:
   get_it: ^8.0.3
   freezed_annotation: ^3.0.0
   json_annotation: ^4.9.0
+  dartz: ^0.10.1
+  logger: ^2.0.2+1
+  fluttertoast: ^8.2.4
+  connectivity_plus: ^5.0.2
+  flutter_animate: ^4.5.2
+
 
 dev_dependencies:
   flutter_test:
