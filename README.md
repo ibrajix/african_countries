@@ -11,7 +11,7 @@
 ### BUILT WITH
 * Flutter (Dart)
 * Bloc
-* Freezed (With Moshi)
+* Freezed
 * Dio
 
 NOTE:
