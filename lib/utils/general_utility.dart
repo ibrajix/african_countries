@@ -15,3 +15,10 @@ abstract class GeneralUtility {
     );
   }
 }
+
+enum ResponseState {
+  initial,
+  loading,
+  success,
+  error,
+}
