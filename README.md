@@ -1,16 +1,22 @@
 # african_countries
 
-A new Flutter project.
 
-## Getting Started
+### App Screenshots
 
-This project is a starting point for a Flutter application.
+<p>
+    <img src="https://github.com/user-attachments/assets/ed3547d3-3435-4aa4-b3bf-c04525b06e02" width="200px" hspace="10"/>
+    <img src="https://github.com/user-attachments/assets/38641eca-18c7-4283-b73b-31cb713abccc" width="200px" hspace="10"/>
+</p>
 
-A few resources to get you started if this is your first Flutter project:
+### BUILT WITH
+* Flutter (Dart)
+* Bloc
+* Freezed (With Moshi)
+* Dio
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+NOTE:
+The API (https://restcountries.com/v3.1/) sometimes returns a 500, just try it again once it does (errors are handled gracefully, with a retry mechanism)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Download 📱
+
+- [DOWNLOAD APK](https://github.com/ibrajix/african_countries/releases/download/v1.0/app-release.apk/)
