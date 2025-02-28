@@ -45,7 +45,6 @@ dependencies:
   fluttertoast: ^8.2.4
   connectivity_plus: ^5.0.2
   flutter_animate: ^4.5.2
-  flutter_svg: ^2.0.9
 
 
 dev_dependencies:

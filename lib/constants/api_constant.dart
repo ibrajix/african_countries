@@ -3,4 +3,5 @@ abstract class ApiConstant {
 
   //base
   static const getCountries = "region/africa";
+  static const getCountryDetails = "region/name";
 }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../utils/general_utility.dart';
+import '../../components/country_card.dart';
+import '../../components/country_details_modal.dart';
 import '../model/country_model.dart';
 import '../state/home_event.dart';
 import '../state/home_state.dart';
@@ -71,7 +73,11 @@ class _HomePageState extends State<HomePage> {
                       itemCount: countries.length,
                       itemBuilder: (context, index) {
                         final country = countries[index];
-                        return CountryCard(country: country);
+                        return GestureDetector(
+                          onTap: () => _showCountryDetails(context, country),
+                          child: CountryCard(country: country),
+                        );
+                        ;
                       },
                     );
           }
@@ -81,84 +87,13 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class CountryCard extends StatelessWidget {
-  final CountryModel country;
-
-  const CountryCard({Key? key, required this.country}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 4,
-      clipBehavior: Clip.antiAlias,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Expanded(
-            flex: 3,
-            child: country.flags?.png != null
-                ? Image.network(
-                    country.flags!.png!,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Container(
-                        color: Colors.grey[200],
-                        child: const Center(
-                          child: Icon(Icons.image_not_supported, size: 40),
-                        ),
-                      );
-                    },
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress == null) return child;
-                      return Center(
-                        child: CircularProgressIndicator(
-                          value: loadingProgress.expectedTotalBytes != null
-                              ? loadingProgress.cumulativeBytesLoaded /
-                                  loadingProgress.expectedTotalBytes!
-                              : null,
-                        ),
-                      );
-                    },
-                  )
-                : Container(
-                    color: Colors.grey[200],
-                    child: const Center(
-                      child: Icon(Icons.image_not_supported, size: 40),
-                    ),
-                  ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    country.name?.common ?? 'Unknown',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'Capital: ${country.capital?.isNotEmpty == true ? country.capital?.first : 'N/A'}',
-                    style: const TextStyle(fontSize: 12),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+void _showCountryDetails(BuildContext context, CountryModel country) {
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+    ),
+    builder: (context) => CountryDetailModal(country: country),
+  );
 }
