@@ -19,4 +19,4 @@ The API (https://restcountries.com/v3.1/) sometimes returns a 500, just try it a
 
 ### Download 📱
 
-- [DOWNLOAD APK](https://github.com/ibrajix/african_countries/releases/download/v1.0/app-release.apk/)
+- [DOWNLOAD APK](https://github.com/ibrajix/african_countries/releases/download/v1.0/app-release.apk)
